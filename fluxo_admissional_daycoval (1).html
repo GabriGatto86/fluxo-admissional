@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluxo Admissional — Banco Daycoval</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --navy: #003865;
+    --navy-light: #004d8c;
+    --navy-dark: #002547;
+    --yellow: #F5C400;
+    --yellow-light: #FFD740;
+    --white: #ffffff;
+    --gray-50: #f8f9fb;
+    --gray-100: #eef0f4;
+    --gray-200: #dde1e9;
+    --gray-400: #8b93a7;
+    --gray-600: #4a5568;
+    --gray-800: #1a202c;
+    --green: #00875a;
+    --red: #d32f2f;
+    --orange: #e65100;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--navy);
+    padding: 0 40px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-mark {
+    width: 38px;
+    height: 38px;
+    background: var(--yellow);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--navy);
+  }
+
+  .logo-text {
+    font-family: 'Sora', sans-serif;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .logo-text span {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .header-badge {
+    background: rgba(245,196,0,0.15);
+    border: 1px solid rgba(245,196,0,0.3);
+    color: var(--yellow);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-light) 100%);
+    padding: 52px 40px 40px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 300px;
+    height: 300px;
+    background: var(--yellow);
+    opacity: 0.04;
+    border-radius: 50%;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: 30%;
+    width: 200px;
+    height: 200px;
+    background: var(--yellow);
+    opacity: 0.03;
+    border-radius: 50%;
+  }
+
+  .hero h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .hero h1 span {
+    color: var(--yellow);
+  }
+
+  .hero p {
+    color: rgba(255,255,255,0.65);
+    font-size: 14px;
+    max-width: 560px;
+    line-height: 1.6;
+    position: relative;
+  }
+
+  /* PHASES NAV */
+  .phases-nav {
+    background: white;
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    position: sticky;
+    top: 72px;
+    z-index: 90;
+  }
+
+  .phase-tab {
+    padding: 16px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-400);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .phase-tab:hover { color: var(--navy); }
+
+  .phase-tab.active {
+    color: var(--navy);
+    border-bottom-color: var(--yellow);
+    font-weight: 600;
+  }
+
+  .phase-tab .tab-num {
+    width: 20px;
+    height: 20px;
+    background: var(--gray-100);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .phase-tab.active .tab-num {
+    background: var(--navy);
+    color: white;
+  }
+
+  /* MAIN */
+  main {
+    padding: 32px 40px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* PHASE SECTION */
+  .phase-section {
+    display: none;
+  }
+
+  .phase-section.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .phase-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--navy);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .phase-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .phase-subtitle {
+    font-size: 13px;
+    color: var(--gray-400);
+    margin-top: 3px;
+  }
+
+  /* FLOW */
+  .flow-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* LANE */
+  .lane {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .lane-header {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  .lane-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .lane-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--gray-600);
+  }
+
+  .lane-body {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* STEP */
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-box {
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    min-width: 130px;
+    max-width: 180px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .step-box:hover {
+    border-color: var(--navy);
+    background: var(--navy);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,56,101,0.2);
+  }
+
+  .step-box.highlight {
+    border-color: var(--yellow);
+    background: #fffbea;
+  }
+
+  .step-box.highlight:hover {
+    background: var(--yellow);
+    color: var(--navy);
+    border-color: var(--yellow);
+  }
+
+  .step-box.decision {
+    background: #fff8e1;
+    border-color: #f9a825;
+    border-style: dashed;
+    transform: rotate(0deg);
+  }
+
+  .step-box.decision:hover {
+    background: #f9a825;
+    color: white;
+  }
+
+  .step-box.system {
+    background: #e8f5e9;
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .step-box.system:hover {
+    background: var(--green);
+    color: white;
+  }
+
+  .step-box.danger {
+    background: #ffebee;
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  .step-num {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: 20px;
+    height: 20px;
+    background: var(--navy);
+    color: white;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step-box.highlight .step-num {
+    background: var(--yellow);
+    color: var(--navy);
+  }
+
+  .arrow {
+    color: var(--gray-400);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .arrow-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .arrow-label span {
+    font-size: 10px;
+    color: var(--gray-400);
+    font-weight: 500;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--gray-600);
+  }
+
+  .legend-box {
+    width: 28px;
+    height: 20px;
+    border-radius: 5px;
+    border: 2px solid;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .modal {
+    background: white;
+    border-radius: 20px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+
+  .modal-header {
+    background: var(--navy);
+    padding: 24px 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .modal-icon {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .modal-title-wrap { flex: 1; }
+
+  .modal-label {
+    font-size: 11px;
+    color: var(--yellow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .modal-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+  }
+
+  .modal-close {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .modal-close:hover { background: rgba(255,255,255,0.2); }
+
+  .modal-body {
+    padding: 28px;
+  }
+
+  .modal-section {
+    margin-bottom: 20px;
+  }
+
+  .modal-section:last-child { margin-bottom: 0; }
+
+  .modal-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray-400);
+    margin-bottom: 8px;
+  }
+
+  .modal-section p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--gray-600);
+  }
+
+  .modal-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .modal-tag {
+    background: var(--gray-100);
+    color: var(--gray-600);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .modal-tag.yellow {
+    background: #fff8dc;
+    color: #7a5f00;
+  }
+
+  .modal-tag.green {
+    background: #e8f5e9;
+    color: var(--green);
+  }
+
+  .modal-tag.red {
+    background: #ffebee;
+    color: var(--red);
+  }
+
+  /* PROGRESS */
+  .progress-bar {
+    background: var(--gray-100);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+  }
+
+  .progress-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-400);
+    position: relative;
+    z-index: 1;
+    transition: all 0.2s;
+    border: 3px solid var(--gray-200);
+  }
+
+  .progress-step.active .progress-circle {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 4px rgba(0,56,101,0.15);
+  }
+
+  .progress-step.done .progress-circle {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+  }
+
+  .progress-line {
+    flex: 1;
+    height: 3px;
+    background: var(--gray-200);
+    margin-top: -18px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .progress-step.done + .progress-line {
+    background: var(--green);
+  }
+
+  .progress-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gray-400);
+    margin-top: 6px;
+    text-align: center;
+    max-width: 70px;
+  }
+
+  .progress-step.active .progress-label {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  /* NAV BUTTONS */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 28px;
+    gap: 12px;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .btn-outline {
+    background: white;
+    border: 2px solid var(--gray-200);
+    color: var(--gray-600);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--navy);
+    color: var(--navy);
+  }
+
+  .btn-primary {
+    background: var(--navy);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--navy-light);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,56,101,0.25);
+  }
+
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* INFO BOX */
+  .info-box {
+    background: #fffbea;
+    border: 1px solid #f9a825;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #5a3e00;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .info-box .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    header { padding: 0 20px; }
+    .hero { padding: 32px 20px; }
+    .phases-nav { padding: 0 20px; }
+    main { padding: 20px 20px 40px; }
+    .lane-body { flex-direction: column; align-items: flex-start; }
+    .arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">D</div>
+    <div class="logo-text">
+      Banco Daycoval
+      <span>Atração & Seleção</span>
+    </div>
+  </div>
+  <div class="header-badge">Fluxo Admissional v2.0</div>
+</header>
+
+<div class="hero">
+  <h1>Processo <span>Admissional</span></h1>
+  <p>Fluxo interativo completo — clique em qualquer etapa para ver detalhes, responsáveis e ações necessárias.</p>
+</div>
+
+<div class="phases-nav">
+  <div class="phase-tab active" onclick="showPhase(0)">
+    <div class="tab-num">1</div> Abertura & Aprovação
+  </div>
+  <div class="phase-tab" onclick="showPhase(1)">
+    <div class="tab-num">2</div> Seleção
+  </div>
+  <div class="phase-tab" onclick="showPhase(2)">
+    <div class="tab-num">3</div> Proposta & Fechamento
+  </div>
+  <div class="phase-tab" onclick="showPhase(3)">
+    <div class="tab-num">4</div> Admissão Digital (MIA)
+  </div>
+  <div class="phase-tab" onclick="showPhase(4)">
+    <div class="tab-num">5</div> Operação RH
+  </div>
+</div>
+
+<main>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-step active" onclick="showPhase(0)">
+      <div class="progress-circle">1</div>
+      <div class="progress-label">Abertura</div>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" onclick="showPhase(1)">
+      <div class="progress-circle">2</div>
+      <div class="progress-label">Seleção</div>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" onclick="showPhase(2)">
+      <div class="progress-circle">3</div>
+      <div class="progress-label">Proposta</div>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" onclick="showPhase(3)">
+      <div class="progress-circle">4</div>
+      <div class="progress-label">MIA</div>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" onclick="showPhase(4)">
+      <div class="progress-circle">5</div>
+      <div class="progress-label">Operação RH</div>
+    </div>
+  </div>
+
+  <!-- LEGENDA -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-box" style="background:#eef0f4;border-color:#dde1e9;"></div>
+      Etapa padrão
+    </div>
+    <div class="legend-item">
+      <div class="legend-box" style="background:#fffbea;border-color:#F5C400;"></div>
+      Etapa crítica
+    </div>
+    <div class="legend-item">
+      <div class="legend-box" style="background:#fff8e1;border-color:#f9a825;border-style:dashed;"></div>
+      Decisão / Aprovação
+    </div>
+    <div class="legend-item">
+      <div class="legend-box" style="background:#e8f5e9;border-color:#00875a;"></div>
+      Ação do sistema
+    </div>
+    <div class="legend-item">
+      <div class="legend-box" style="background:#ffebee;border-color:#d32f2f;"></div>
+      Retorno / Reprovação
+    </div>
+  </div>
+
+  <!-- FASE 1: ABERTURA -->
+  <div class="phase-section active" id="phase-0">
+    <div class="phase-header">
+      <div class="phase-icon">📋</div>
+      <div>
+        <div class="phase-title">Fase 1 — Abertura & Aprovação da Vaga</div>
+        <div class="phase-subtitle">Da abertura da RP até a autorização para iniciar o processo seletivo</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <span class="info-icon">⚠️</span>
+      <span><strong>Atenção:</strong> A abertura da RP é responsabilidade da <strong>BP (Business Partner)</strong>, não do Gestor. O Gestor inicia a demanda internamente, mas o registro formal no sistema é feito pela BP.</span>
+    </div>
+
+    <div class="flow-container">
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#F5C400"></div>
+          <div class="lane-label">BP — Business Partner</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box highlight" onclick="openModal('bp-abre-rp')">
+              <div class="step-num">1</div>
+              BP abre a RP<br><small style="font-weight:400;font-size:11px">(via wf)</small>
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box highlight" onclick="openModal('hrbp-avalia')">
+              <div class="step-num">2</div>
+              HRBP avalia necessidade da vaga
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#003865"></div>
+          <div class="lane-label">Remuneração</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box" onclick="openModal('rem-avalia')">
+              <div class="step-num">3</div>
+              Avalia a vaga
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box decision" onclick="openModal('rem-elegibilidade')">
+              Verifica elegibilidade
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#7c3aed"></div>
+          <div class="lane-label">Diretoria / Decisora</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box highlight" onclick="openModal('dir-aprovacao')">
+              <div class="step-num">4</div>
+              Aprovação do Trio
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <span style="font-size:13px;color:var(--gray-400);font-style:italic">Vaga autorizada → inicia Seleção</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-outline" disabled>← Anterior</button>
+      <button class="btn btn-primary" onclick="showPhase(1)">Próxima fase →</button>
+    </div>
+  </div>
+
+  <!-- FASE 2: SELEÇÃO -->
+  <div class="phase-section" id="phase-1">
+    <div class="phase-header">
+      <div class="phase-icon">🔍</div>
+      <div>
+        <div class="phase-title">Fase 2 — Seleção</div>
+        <div class="phase-subtitle">Triagem, avaliações, entrevistas e construção do shortlist</div>
+      </div>
+    </div>
+
+    <div class="flow-container">
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#003865"></div>
+          <div class="lane-label">R&S — Recrutamento & Seleção</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box" onclick="openModal('rs-recebe-rf')">
+              <div class="step-num">1</div>
+              Recebe demanda da RP
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box decision" onclick="openModal('rs-interno-externo')">
+              R&S Interno ou Externo?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#0077b6"></div>
+          <div class="lane-label">Candidato Interno</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box system" onclick="openModal('cand-gupy')">
+              Candidatura via Gupy
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('rs-triagem')">
+              Triagem de CV
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('rs-avaliacoes')">
+              Avaliações, testes e entrevistas
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#0096c7"></div>
+          <div class="lane-label">Candidato Externo</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box" onclick="openModal('rs-divulgacao')">
+              Divulgação da vaga
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('rs-triagem')">
+              Triagem de CV
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('rs-avaliacoes')">
+              Avaliações, testes e entrevistas
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('rs-background')">
+              Consultar Background
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#F5C400"></div>
+          <div class="lane-label">R&S → Gestão</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box highlight" onclick="openModal('rs-shortlist')">
+              Criar shortlist e agendar entrevista
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('gest-entrevista')">
+              Entrevista com candidato + feedback
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box decision" onclick="openModal('rs-feedback-decisao')">
+              Feedback dos candidatos — Aprovado?
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-outline" onclick="showPhase(0)">← Anterior</button>
+      <button class="btn btn-primary" onclick="showPhase(2)">Próxima fase →</button>
+    </div>
+  </div>
+
+  <!-- FASE 3: PROPOSTA -->
+  <div class="phase-section" id="phase-2">
+    <div class="phase-header">
+      <div class="phase-icon">📄</div>
+      <div>
+        <div class="phase-title">Fase 3 — Proposta & Fechamento</div>
+        <div class="phase-subtitle">Carta proposta, negociação e encaminhamento para admissão</div>
+      </div>
+    </div>
+
+    <div class="flow-container">
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#003865"></div>
+          <div class="lane-label">R&S — Seleção</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box highlight" onclick="openModal('rs-carta-proposta')">
+              <div class="step-num">1</div>
+              Realizar Carta Proposta
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('rs-exame-medico')">
+              Agendar e realizar Exame Médico
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('rs-inicia-admissao')">
+              Inicia Processo Admissão
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box decision" onclick="openModal('rs-finaliza-selecao')">
+              Finaliza Seleção e inicia Admissão
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#7c3aed"></div>
+          <div class="lane-label">Interno — Movimentação</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box" onclick="openModal('int-movimentacao')">
+              Movimentação SG — Serviços RH
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#0096c7"></div>
+          <div class="lane-label">Candidato</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box" onclick="openModal('cand-recebe-proposta')">
+              Recebe e avalia proposta
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box decision" onclick="openModal('cand-contra-proposta')">
+              Avalia possibilidade de contraproposta?
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box danger" onclick="openModal('cand-reprovacao')">
+              Retorno Reprovação
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-outline" onclick="showPhase(1)">← Anterior</button>
+      <button class="btn btn-primary" onclick="showPhase(3)">Próxima fase →</button>
+    </div>
+  </div>
+
+  <!-- FASE 4: MIA -->
+  <div class="phase-section" id="phase-3">
+    <div class="phase-header">
+      <div class="phase-icon">💻</div>
+      <div>
+        <div class="phase-title">Fase 4 — Admissão Digital (MIA)</div>
+        <div class="phase-subtitle">Onboarding digital, documentação e efetivação</div>
+      </div>
+    </div>
+
+    <div class="flow-container">
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#003865"></div>
+          <div class="lane-label">MIA — Candidato</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box system" onclick="openModal('mia-link')">
+              <div class="step-num">1</div>
+              Candidato recebe link do documento
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('mia-onboarding')">
+              <div class="step-num">2</div>
+              Onboarding Digital
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('mia-ficha')">
+              <div class="step-num">3</div>
+              Preenche Ficha Cadastral
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('mia-docs')">
+              <div class="step-num">4</div>
+              Envio de documentos
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#F5C400"></div>
+          <div class="lane-label">MIA — Conta Itaú & Benefícios</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box decision" onclick="openModal('mia-conta')">
+              Possui conta no Itaú?
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box system" onclick="openModal('mia-abre-conta')">
+              Sistema envia Carta para abertura
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('mia-beneficios')">
+              Preenche Benefícios
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box highlight" onclick="openModal('mia-assina-formularios')">
+              Assina todos os formulários (ficha/benef.)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#00875a"></div>
+          <div class="lane-label">Finalização</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box highlight" onclick="openModal('mia-assina-contrato')">
+              Assina o Contrato
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box system" onclick="openModal('mia-bem-vindo')">
+              Envio do Bem Vindo
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box highlight" onclick="openModal('mia-efetivacao')">
+              ✅ Efetivação
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-outline" onclick="showPhase(2)">← Anterior</button>
+      <button class="btn btn-primary" onclick="showPhase(4)">Próxima fase →</button>
+    </div>
+  </div>
+
+  <!-- FASE 5: OPERAÇÃO RH -->
+  <div class="phase-section" id="phase-4">
+    <div class="phase-header">
+      <div class="phase-icon">⚙️</div>
+      <div>
+        <div class="phase-title">Fase 5 — Operação RH</div>
+        <div class="phase-subtitle">Fluxo interno da equipe de Operações para conclusão da admissão</div>
+      </div>
+    </div>
+
+    <div class="flow-container">
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#003865"></div>
+          <div class="lane-label">Operação RH — Início</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box system" onclick="openModal('op-email-vaga')">
+              <div class="step-num">1</div>
+              Equipe recebe e-mail da vaga
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('op-planilha')">
+              <div class="step-num">2</div>
+              Alimentar planilha de candidatos
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('op-confere-docs')">
+              <div class="step-num">3</div>
+              Confere documentos e contata candidato
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box decision" onclick="openModal('op-ajuste')">
+              Banco/Haver ajuste?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#F5C400"></div>
+          <div class="lane-label">Operação RH — Topdek & Contrato</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box" onclick="openModal('op-topdek')">
+              <div class="step-num">4</div>
+              Abrir chamado no Topdek
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('op-complemento')">
+              <div class="step-num">5</div>
+              Complemento Topdek
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box" onclick="openModal('op-informe-contrato')">
+              Informa complemento — Contrato de trabalho
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box system" onclick="openModal('op-dispara-contrato')">
+              Dispara o contrato de trabalho
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header">
+          <div class="lane-dot" style="background:#00875a"></div>
+          <div class="lane-label">Operação RH — Finalização</div>
+        </div>
+        <div class="lane-body">
+          <div class="step">
+            <div class="step-box" onclick="openModal('op-bpo')">
+              <div class="step-num">6</div>
+              Chamado BPO B&G
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box highlight" onclick="openModal('op-beneficios-elegiveis')">
+              <div class="step-num">7</div>
+              Benefícios Elegíveis (AM/AC)
+            </div>
+          </div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <div class="step-box system" onclick="openModal('op-cadastramento')">
+              IFP — Cadastramento Mensal
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-outline" onclick="showPhase(3)">← Anterior</button>
+      <button class="btn btn-outline" disabled>Fim do fluxo ✓</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-icon" id="modalIcon">📋</div>
+      </div>
+      <div class="modal-title-wrap">
+        <div class="modal-label" id="modalLabel">Etapa</div>
+        <div class="modal-title" id="modalTitle">Título</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">O que é</div>
+        <p id="modalDescription"></p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Ação necessária</div>
+        <p id="modalAction"></p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Responsável & Tags</div>
+        <div class="modal-tags" id="modalTags"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DADOS DAS ETAPAS — edite aqui para atualizar o conteúdo
+// ============================================================
+const steps = {
+  'bp-abre-rp': {
+    icon: '📋', label: 'Fase 1 — Abertura', title: 'BP abre a RP',
+    description: 'A Business Partner (BP) é a responsável pelo registro formal da Requisição de Pessoal (RP) no sistema. Ela recebe a demanda do gestor e formaliza a abertura.',
+    action: 'Acessar o workflow (wf) e preencher todos os campos da RP: área, cargo, justificativa, perfil esperado e data desejada de contratação. Encaminhar para validação do HRBP.',
+    tags: [{text:'BP', type:'yellow'}, {text:'Sistema WF', type:''}, {text:'Obrigatório', type:'red'}]
+  },
+  'hrbp-avalia': {
+    icon: '🔎', label: 'Fase 1 — Abertura', title: 'HRBP avalia necessidade da vaga',
+    description: 'O HRBP analisa se a abertura da vaga é necessária, adequada ao headcount e alinhada com a estratégia da área.',
+    action: 'Verificar dados da RP, histórico da área e alinhamento com budget aprovado. Aprovar ou devolver para ajuste. Encaminhar para Remuneração após validação.',
+    tags: [{text:'HRBP', type:'yellow'}, {text:'Validação estratégica', type:''}]
+  },
+  'rem-avalia': {
+    icon: '💰', label: 'Fase 1 — Abertura', title: 'Remuneração avalia a vaga',
+    description: 'A área de Remuneração verifica se o cargo está dentro da política salarial do banco e se os valores propostos estão adequados ao mercado e à estrutura interna.',
+    action: 'Analisar faixa salarial, benefícios e enquadramento do cargo. Validar elegibilidade e encaminhar para aprovação da Diretoria.',
+    tags: [{text:'Remuneração', type:''}, {text:'Política Salarial', type:''}]
+  },
+  'rem-elegibilidade': {
+    icon: '✅', label: 'Fase 1 — Decisão', title: 'Verifica elegibilidade',
+    description: 'Ponto de decisão: a vaga está dentro dos parâmetros de elegibilidade? Isso inclui verificação de budget, estrutura de cargos e alçadas de aprovação.',
+    action: 'Se elegível: seguir para aprovação da Diretoria. Se não elegível: devolver para o HRBP com justificativa e orientação de adequação.',
+    tags: [{text:'Decisão', type:'yellow'}, {text:'Remuneração', type:''}]
+  },
+  'dir-aprovacao': {
+    icon: '🏛️', label: 'Fase 1 — Aprovação', title: 'Aprovação do Trio',
+    description: 'O "Trio" é composto pelos três pilares de decisão: Diretoria da área demandante, HRBP e Remuneração. A aprovação conjunta libera formalmente o início do processo seletivo.',
+    action: 'Aguardar aprovação dos três. Após aprovação, o R&S recebe a RP e pode iniciar a seleção. Sem aprovação do trio, o processo não avança.',
+    tags: [{text:'Diretoria', type:'red'}, {text:'HRBP', type:'yellow'}, {text:'Remuneração', type:''}, {text:'Obrigatório', type:'red'}]
+  },
+  'rs-recebe-rf': {
+    icon: '📥', label: 'Fase 2 — Seleção', title: 'R&S recebe demanda da RP',
+    description: 'O recrutador responsável recebe a RP aprovada via workflow e/ou e-mail. É o ponto de partida da seleção.',
+    action: 'Ler a RP na íntegra, fazer o call de alinhamento de vaga com a gestão responsável e definir a estratégia de busca (interno, externo ou ambos).',
+    tags: [{text:'R&S', type:'yellow'}, {text:'Recrutador', type:''}]
+  },
+  'rs-interno-externo': {
+    icon: '🔀', label: 'Fase 2 — Decisão', title: 'R&S Interno ou Externo?',
+    description: 'Decisão estratégica: a vaga será divulgada internamente (mobilidade interna), externamente (mercado) ou nos dois canais simultaneamente.',
+    action: 'Avaliar perfil da vaga e verificar se há candidatos internos elegíveis. Prioritizar mobilidade interna quando possível. Registrar a decisão no ATS.',
+    tags: [{text:'Decisão', type:'yellow'}, {text:'R&S', type:''}]
+  },
+  'cand-gupy': {
+    icon: '💻', label: 'Fase 2 — Sistema', title: 'Candidatura via Gupy',
+    description: 'Para candidatos internos, o processo de candidatura acontece pelo portal Gupy. O sistema gerencia as inscrições e faz o tracking do funil.',
+    action: 'Garantir que a vaga esteja publicada corretamente na Gupy com todas as informações. Monitorar as candidaturas recebidas.',
+    tags: [{text:'Sistema', type:'green'}, {text:'Gupy', type:'green'}, {text:'Candidato Interno', type:''}]
+  },
+  'rs-divulgacao': {
+    icon: '📢', label: 'Fase 2 — Seleção', title: 'Divulgação da vaga',
+    description: 'Para candidatos externos, a vaga é divulgada nos canais adequados: LinkedIn, Gupy, portais de emprego e outras plataformas conforme perfil da vaga.',
+    action: 'Redigir o anúncio da vaga com linguagem inclusiva e clara. Definir canais de divulgação e período. Publicar e monitorar volume de candidaturas.',
+    tags: [{text:'R&S', type:'yellow'}, {text:'Candidato Externo', type:''}, {text:'LinkedIn', type:''}]
+  },
+  'rs-triagem': {
+    icon: '📊', label: 'Fase 2 — Seleção', title: 'Triagem de CV',
+    description: 'Análise dos currículos recebidos para identificar candidatos que atendem aos requisitos mínimos da vaga. Primeira grande filtragem do funil.',
+    action: 'Avaliar cada CV com base nos critérios técnicos e comportamentais definidos no briefing. Mover candidatos elegíveis para a próxima etapa no ATS. Registrar justificativa de eliminação.',
+    tags: [{text:'R&S', type:'yellow'}, {text:'ATS', type:'green'}]
+  },
+  'rs-avaliacoes': {
+    icon: '🧪', label: 'Fase 2 — Seleção', title: 'Avaliações, testes e entrevistas',
+    description: 'Etapa de avaliação profunda dos candidatos. Pode incluir testes técnicos, avaliações comportamentais, entrevistas por competência e dinâmicas de grupo.',
+    action: 'Aplicar as ferramentas definidas no briefing da vaga. Registrar todas as avaliações no ATS. Dar feedback a candidatos reprovados nessa etapa.',
+    tags: [{text:'R&S', type:'yellow'}, {text:'Testes', type:''}, {text:'DISC', type:''}]
+  },
+  'rs-background': {
+    icon: '🔍', label: 'Fase 2 — Seleção', title: 'Consultar Background',
+    description: 'Verificação de histórico do candidato externo: referências profissionais, cheque de off limits e outras consultas necessárias antes de avançar.',
+    action: 'Verificar OBRIGATORIAMENTE a lista de off limits antes de avançar o candidato. Consultar referências quando solicitado. Registrar resultado no ATS.',
+    tags: [{text:'R&S', type:'yellow'}, {text:'Off Limits', type:'red'}, {text:'Obrigatório', type:'red'}]
+  },
+  'rs-shortlist': {
+    icon: '📋', label: 'Fase 2 — Seleção', title: 'Criar shortlist e agendar entrevista',
+    description: 'Com base nas avaliações, o recrutador seleciona os melhores candidatos e apresenta ao gestor. O shortlist é o conjunto de finalistas que irão para entrevista com a gestão.',
+    action: 'Selecionar de 3 a 5 candidatos para o shortlist. Apresentar ao gestor com resumo de cada perfil. Agendar as entrevistas com todos os envolvidos.',
+    tags: [{text:'R&S', type:'yellow'}, {text:'Gestão', type:''}]
+  },
+  'gest-entrevista': {
+    icon: '🤝', label: 'Fase 2 — Gestão', title: 'Entrevista com candidato + feedback',
+    description: 'O gestor direto (e outros decisores, se necessário) conduz entrevista final com os candidatos do shortlist.',
+    action: 'Conduzir entrevista estruturada. Dar feedback ao R&S em até 48h após cada entrevista. Indicar claramente aprovação ou reprovação com justificativa.',
+    tags: [{text:'Gestão', type:''}, {text:'R&S', type:'yellow'}, {text:'48h', type:'red'}]
+  },
+  'rs-feedback-decisao': {
+    icon: '✅', label: 'Fase 2 — Decisão', title: 'Feedback dos candidatos — Aprovado?',
+    description: 'Ponto de decisão final da seleção. Com base no feedback do gestor, o candidato é aprovado para seguir para proposta ou reprovado com retorno.',
+    action: 'Se aprovado: seguir para Fase 3 (Proposta). Se reprovado: comunicar o candidato com feedback construtivo e registrar no ATS. Se nenhum candidato aprovado: reiniciar triagem.',
+    tags: [{text:'Decisão', type:'yellow'}, {text:'R&S', type:''}, {text:'Gestão', type:''}]
+  },
+  'rs-carta-proposta': {
+    icon: '📄', label: 'Fase 3 — Proposta', title: 'Realizar Carta Proposta',
+    description: 'Documento formal com as condições da oferta: cargo, salário, benefícios, data de início e demais informações contratuais relevantes.',
+    action: 'Emitir a carta proposta conforme aprovação de Remuneração. Revisar todos os dados antes de enviar ao candidato. Enviar por canal formal registrado.',
+    tags: [{text:'R&S', type:'yellow'}, {text:'Remuneração', type:''}, {text:'Documento Formal', type:''}]
+  },
+  'rs-exame-medico': {
+    icon: '🏥', label: 'Fase 3 — Proposta', title: 'Agendar e realizar Exame Médico',
+    description: 'Exame admissional obrigatório por lei. O candidato aprovado é encaminhado para avaliação médica antes da formalização da contratação.',
+    action: 'Agendar exame com a clínica credenciada. Informar ao candidato local, data, horário e documentos necessários. Aguardar resultado para dar sequência.',
+    tags: [{text:'R&S', type:'yellow'}, {text:'Obrigatório', type:'red'}, {text:'CLT', type:''}]
+  },
+  'rs-inicia-admissao': {
+    icon: '🚀', label: 'Fase 3 — Proposta', title: 'Inicia Processo de Admissão',
+    description: 'Com candidato aprovado no exame médico e proposta aceita, o processo de admissão é formalmente iniciado e encaminhado para a equipe de Operação RH.',
+    action: 'Comunicar Operação RH sobre início da admissão. Enviar todos os dados do candidato aprovado. Registrar no ATS a mudança de status.',
+    tags: [{text:'R&S', type:'yellow'}, {text:'Operação RH', type:''}]
+  },
+  'rs-finaliza-selecao': {
+    icon: '🏁', label: 'Fase 3 — Fechamento', title: 'Finaliza Seleção e inicia Admissão',
+    description: 'Marco formal de encerramento da etapa de Seleção. O candidato passa oficialmente para o fluxo de Admissão Digital (MIA).',
+    action: 'Fechar o processo no ATS. Enviar link do MIA ao candidato. Informar a data de início ao gestor e às áreas de apoio (TI, facilities, etc).',
+    tags: [{text:'R&S', type:'yellow'}, {text:'Marco', type:'green'}, {text:'MIA', type:'green'}]
+  },
+  'int-movimentacao': {
+    icon: '🔄', label: 'Fase 3 — Interno', title: 'Movimentação SG — Serviços RH',
+    description: 'Para candidatos internos aprovados, é gerada uma movimentação via sistema SG — Serviços RH, formalizando a transferência ou promoção.',
+    action: 'Abrir solicitação de movimentação no SG. Informar novo cargo, área, gestor e data de vigência. Seguir para aprovação conforme alçadas.',
+    tags: [{text:'Candidato Interno', type:''}, {text:'SG Serviços RH', type:'green'}]
+  },
+  'cand-recebe-proposta': {
+    icon: '📬', label: 'Fase 3 — Candidato', title: 'Candidato recebe e avalia proposta',
+    description: 'O candidato analisa a carta proposta recebida: salário, benefícios, cargo, modelo de trabalho e condições gerais.',
+    action: 'R&S deve estar disponível para esclarecer dúvidas. Estabelecer prazo de resposta (recomendado: até 48h). Registrar retorno no ATS.',
+    tags: [{text:'Candidato', type:''}, {text:'R&S', type:'yellow'}, {text:'48h', type:'red'}]
+  },
+  'cand-contra-proposta': {
+    icon: '💬', label: 'Fase 3 — Decisão', title: 'Candidato avalia contraproposta?',
+    description: 'Se o candidato não aceitar os termos, há espaço para negociação? Esse ponto de decisão define se há margem para ajuste ou se o processo encerra.',
+    action: 'Se há espaço: consultar Remuneração para validar possibilidade de ajuste. Se não há espaço: comunicar candidato e registrar como reprovado. Retornar ao shortlist se necessário.',
+    tags: [{text:'Decisão', type:'yellow'}, {text:'R&S', type:''}, {text:'Remuneração', type:''}]
+  },
+  'cand-reprovacao': {
+    icon: '❌', label: 'Fase 3 — Retorno', title: 'Retorno Reprovação',
+    description: 'O processo é encerrado com esse candidato. A reprovação pode ocorrer por não aceite da proposta, resultado do exame médico ou decisão da gestão.',
+    action: 'Comunicar o candidato de forma respeitosa e humana. Registrar o motivo no ATS. Avaliar se retorna ao shortlist para próximo candidato.',
+    tags: [{text:'R&S', type:'yellow'}, {text:'Candidato', type:''}, {text:'Registro Obrigatório', type:'red'}]
+  },
+  'mia-link': {
+    icon: '🔗', label: 'Fase 4 — MIA', title: 'Candidato recebe link do documento',
+    description: 'O candidato aprovado recebe por e-mail o link de acesso ao MIA (sistema de admissão digital) para iniciar o preenchimento de seus dados.',
+    action: 'Confirmar que o e-mail foi enviado e recebido. Orientar o candidato sobre como acessar e o prazo para preenchimento. Atenção: todos os campos devem ser preenchidos em letras maiúsculas sem acentuação.',
+    tags: [{text:'Sistema', type:'green'}, {text:'MIA', type:'green'}, {text:'Candidato', type:''}]
+  },
+  'mia-onboarding': {
+    icon: '🖥️', label: 'Fase 4 — MIA', title: 'Onboarding Digital',
+    description: 'Primeira etapa do MIA. O candidato assiste aos materiais de boas-vindas e recebe orientações sobre a empresa e o processo de admissão digital.',
+    action: 'Garantir que o candidato acesse e conclua o onboarding digital. Disponibilizar canal de suporte para dúvidas durante o preenchimento.',
+    tags: [{text:'Candidato', type:''}, {text:'MIA', type:'green'}]
+  },
+  'mia-ficha': {
+    icon: '📝', label: 'Fase 4 — MIA', title: 'Preenche Ficha Cadastral',
+    description: 'O candidato preenche seus dados pessoais, endereço, dependentes e demais informações cadastrais no sistema.',
+    action: 'ATENÇÃO: orientar o candidato a preencher em LETRAS MAIÚSCULAS e SEM ACENTUAÇÃO, conforme exigência do sistema. Operação RH deve conferir após envio.',
+    tags: [{text:'Candidato', type:''}, {text:'Maiúsculas', type:'red'}, {text:'Sem acento', type:'red'}]
+  },
+  'mia-docs': {
+    icon: '📎', label: 'Fase 4 — MIA', title: 'Envio de documentos',
+    description: 'Upload dos documentos obrigatórios para admissão: RG, CPF, comprovante de residência, carteira de trabalho, escolaridade e demais conforme cargo.',
+    action: 'Verificar lista de documentos necessários conforme tipo de contratação. Conferir qualidade dos arquivos enviados. Solicitar reenvio se necessário.',
+    tags: [{text:'Candidato', type:''}, {text:'Operação RH', type:''}, {text:'Documentação', type:'red'}]
+  },
+  'mia-conta': {
+    icon: '🏦', label: 'Fase 4 — Decisão', title: 'Possui conta no Itaú?',
+    description: 'Verificação se o candidato já possui conta corrente no Itaú para recebimento do salário.',
+    action: 'Se sim: seguir para preenchimento de benefícios. Se não: o sistema envia automaticamente a carta para abertura de conta. Acompanhar confirmação de abertura.',
+    tags: [{text:'Decisão', type:'yellow'}, {text:'MIA', type:'green'}, {text:'Itaú', type:''}]
+  },
+  'mia-abre-conta': {
+    icon: '🏦', label: 'Fase 4 — Sistema', title: 'Sistema envia Carta para abertura',
+    description: 'Para candidatos sem conta no Itaú, o sistema MIA envia automaticamente a carta de encaminhamento para abertura de conta.',
+    action: 'Monitorar se o candidato realizou a abertura. Acompanhar confirmação e só liberar etapa seguinte após confirmação da conta.',
+    tags: [{text:'Sistema', type:'green'}, {text:'Automático', type:'green'}, {text:'Itaú', type:''}]
+  },
+  'mia-beneficios': {
+    icon: '🎁', label: 'Fase 4 — MIA', title: 'Preenche Benefícios',
+    description: 'O candidato seleciona e configura seus benefícios elegíveis conforme política do banco: VA/VR, plano de saúde, odonto e demais opções disponíveis.',
+    action: 'Orientar o candidato sobre os benefícios disponíveis e regras de elegibilidade. Confirmar preenchimento correto antes de avançar.',
+    tags: [{text:'Candidato', type:''}, {text:'Benefícios', type:'green'}]
+  },
+  'mia-assina-formularios': {
+    icon: '✍️', label: 'Fase 4 — MIA', title: 'Assina todos os formulários',
+    description: 'Assinatura eletrônica de todos os documentos e formulários do processo: ficha cadastral, declarações, aceite de benefícios e demais documentos exigidos.',
+    action: 'Confirmar que TODOS os formulários foram assinados antes de liberar para próxima etapa. Qualquer pendência trava o processo.',
+    tags: [{text:'Candidato', type:''}, {text:'Assinatura Digital', type:'green'}, {text:'Obrigatório', type:'red'}]
+  },
+  'mia-assina-contrato': {
+    icon: '📑', label: 'Fase 4 — Finalização', title: 'Assina o Contrato',
+    description: 'Assinatura eletrônica do contrato de trabalho. Marco formal da contratação.',
+    action: 'Verificar se o contrato foi gerado corretamente com todos os dados. Confirmar assinatura do candidato. Arquivar no sistema.',
+    tags: [{text:'Candidato', type:''}, {text:'Marco Legal', type:'red'}, {text:'Contrato CLT', type:''}]
+  },
+  'mia-bem-vindo': {
+    icon: '👋', label: 'Fase 4 — Sistema', title: 'Envio do Bem Vindo',
+    description: 'O sistema envia automaticamente o e-mail de boas-vindas ao novo colaborador com informações sobre o primeiro dia.',
+    action: 'Conferir se o e-mail foi disparado corretamente. Garantir que o gestor também foi comunicado sobre a data de início.',
+    tags: [{text:'Sistema', type:'green'}, {text:'Automático', type:'green'}, {text:'Gestão', type:''}]
+  },
+  'mia-efetivacao': {
+    icon: '✅', label: 'Fase 4 — Conclusão', title: 'Efetivação',
+    description: 'Marco final da admissão digital. O colaborador está oficialmente contratado e pronto para iniciar.',
+    action: 'Comunicar o gestor, TI e facilities sobre o início do colaborador. Garantir acesso aos sistemas, equipamentos e espaço de trabalho.',
+    tags: [{text:'Conclusão', type:'green'}, {text:'RH', type:''}, {text:'TI', type:''}, {text:'Facilities', type:''}]
+  },
+  'op-email-vaga': {
+    icon: '📧', label: 'Fase 5 — Operação RH', title: 'Equipe recebe e-mail da vaga',
+    description: 'A equipe de Operação RH recebe notificação por e-mail de que há uma admissão para processar.',
+    action: 'Confirmar recebimento. Identificar o responsável pelo processo. Iniciar o fluxo de admissão na planilha de controle.',
+    tags: [{text:'Operação RH', type:'yellow'}, {text:'E-mail', type:''}]
+  },
+  'op-planilha': {
+    icon: '📊', label: 'Fase 5 — Operação RH', title: 'Alimentar planilha de candidatos',
+    description: 'Registro do candidato na planilha de controle interno da Operação RH para acompanhamento de todas as etapas.',
+    action: 'Preencher todos os campos da planilha: nome, CPF, cargo, gestor, data prevista de início, status. Manter atualizado até conclusão.',
+    tags: [{text:'Operação RH', type:'yellow'}, {text:'Controle', type:''}]
+  },
+  'op-confere-docs': {
+    icon: '🔎', label: 'Fase 5 — Operação RH', title: 'Confere documentos e contata candidato',
+    description: 'Verificação de toda a documentação enviada pelo candidato no MIA. Em caso de pendência ou erro, o candidato é contactado para correção.',
+    action: 'Conferir cada documento contra a lista de requisitos. Se houver pendência: solicitar correção ao candidato com prazo definido. Registrar status na planilha.',
+    tags: [{text:'Operação RH', type:'yellow'}, {text:'Documentação', type:'red'}]
+  },
+  'op-ajuste': {
+    icon: '⚙️', label: 'Fase 5 — Decisão', title: 'Banco / Haver ajuste?',
+    description: 'Ponto de verificação: há algum ajuste necessário nos dados bancários ou na documentação antes de prosseguir?',
+    action: 'Se sim: solicitar correção e aguardar. Se não: seguir para abertura do chamado no Topdek.',
+    tags: [{text:'Decisão', type:'yellow'}, {text:'Operação RH', type:''}]
+  },
+  'op-topdek': {
+    icon: '🎫', label: 'Fase 5 — Operação RH', title: 'Abrir chamado no Topdek',
+    description: 'Abertura do chamado formal no sistema Topdek para registro e processamento da admissão.',
+    action: 'Criar chamado com todos os dados do colaborador. Informar data de início, cargo, área e tipo de contratação (jovem aprendiz, estagiário, CLT).',
+    tags: [{text:'Operação RH', type:'yellow'}, {text:'Topdek', type:'green'}, {text:'Sistema', type:'green'}]
+  },
+  'op-complemento': {
+    icon: '📋', label: 'Fase 5 — Operação RH', title: 'Complemento Topdek',
+    description: 'Preenchimento de informações complementares no chamado Topdek conforme tipo de contratação: jovem aprendiz, estagiário ou CLT.',
+    action: 'Avaliar o tipo de contratação e preencher campos específicos. Atentar para particularidades de cada modalidade antes de finalizar.',
+    tags: [{text:'Operação RH', type:'yellow'}, {text:'Topdek', type:'green'}, {text:'CLT / Aprendiz / Estágio', type:''}]
+  },
+  'op-informe-contrato': {
+    icon: '📄', label: 'Fase 5 — Contrato', title: 'Informa complemento — Contrato de trabalho',
+    description: 'Com todas as informações preenchidas, o contrato de trabalho é gerado e preparado para assinatura.',
+    action: 'Confirmar todos os dados do contrato antes de disparar. Verificar cargo, salário, benefícios e data de início.',
+    tags: [{text:'Operação RH', type:'yellow'}, {text:'Contrato', type:'red'}]
+  },
+  'op-dispara-contrato': {
+    icon: '🚀', label: 'Fase 5 — Sistema', title: 'Dispara o contrato de trabalho',
+    description: 'O sistema envia o contrato para assinatura eletrônica do candidato.',
+    action: 'Monitorar assinatura. Em caso de não assinatura no prazo, contatar candidato.',
+    tags: [{text:'Sistema', type:'green'}, {text:'Automático', type:'green'}]
+  },
+  'op-bpo': {
+    icon: '📞', label: 'Fase 5 — Operação RH', title: 'Chamado BPO B&G',
+    description: 'Abertura de chamado junto ao BPO (parceiro externo) para processamento dos benefícios iniciais do colaborador.',
+    action: 'Abrir chamado com dados completos. Informar data de início e lista de benefícios elegíveis.',
+    tags: [{text:'Operação RH', type:'yellow'}, {text:'BPO', type:''}, {text:'Externo', type:''}]
+  },
+  'op-beneficios-elegiveis': {
+    icon: '🎁', label: 'Fase 5 — Operação RH', title: 'Benefícios Elegíveis (AM/AC)',
+    description: 'Configuração dos benefícios elegíveis do colaborador: assistência médica (AM) e assistência odontológica (AC) conforme política da empresa e cargo.',
+    action: 'Verificar elegibilidade conforme tabela de benefícios. Configurar na plataforma. Confirmar ativação antes da data de início.',
+    tags: [{text:'Operação RH', type:'yellow'}, {text:'AM', type:'green'}, {text:'AC', type:'green'}]
+  },
+  'op-cadastramento': {
+    icon: '📅', label: 'Fase 5 — Finalização', title: 'IFP — Cadastramento Mensal',
+    description: 'Registro do novo colaborador no IFP para o cadastramento mensal, garantindo que todos os sistemas estejam atualizados.',
+    action: 'Incluir colaborador na folha do mês vigente. Confirmar integração com sistemas de ponto, acesso e benefícios. Encerrar o processo.',
+    tags: [{text:'Operação RH', type:'yellow'}, {text:'IFP', type:'green'}, {text:'Conclusão', type:'green'}]
+  }
+};
+
+// ============================================================
+// NAVEGAÇÃO
+// ============================================================
+let currentPhase = 0;
+
+function showPhase(index) {
+  document.querySelectorAll('.phase-section').forEach((s, i) => {
+    s.classList.toggle('active', i === index);
+  });
+  document.querySelectorAll('.phase-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === index);
+  });
+  document.querySelectorAll('.progress-step').forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    if (i < index) s.classList.add('done');
+    if (i === index) s.classList.add('active');
+  });
+  currentPhase = index;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(key) {
+  const step = steps[key];
+  if (!step) return;
+
+  document.getElementById('modalIcon').textContent = step.icon;
+  document.getElementById('modalLabel').textContent = step.label;
+  document.getElementById('modalTitle').textContent = step.title;
+  document.getElementById('modalDescription').textContent = step.description;
+  document.getElementById('modalAction').textContent = step.action;
+
+  const tagsEl = document.getElementById('modalTags');
+  tagsEl.innerHTML = step.tags.map(t =>
+    `<span class="modal-tag ${t.type}">${t.text}</span>`
+  ).join('');
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeEditor();
+  }
+});
+
+// ============================================================
+// PAINEL DE EDIÇÃO
+// ============================================================
+let editingKey = null;
+
+function openEditor(key) {
+  const step = steps[key];
+  if (!step) return;
+  editingKey = key;
+
+  document.getElementById('editorKey').textContent = key;
+  document.getElementById('editIcon').value = step.icon;
+  document.getElementById('editLabel').value = step.label;
+  document.getElementById('editTitle').value = step.title;
+  document.getElementById('editDescription').value = step.description;
+  document.getElementById('editAction').value = step.action;
+  document.getElementById('editTags').value = step.tags.map(t => t.text).join(', ');
+
+  document.getElementById('editorOverlay').classList.add('open');
+}
+
+function saveEditor() {
+  if (!editingKey) return;
+  const tagsRaw = document.getElementById('editTags').value;
+  const tags = tagsRaw.split(',').map(t => ({ text: t.trim(), type: '' }));
+
+  steps[editingKey] = {
+    ...steps[editingKey],
+    icon: document.getElementById('editIcon').value,
+    label: document.getElementById('editLabel').value,
+    title: document.getElementById('editTitle').value,
+    description: document.getElementById('editDescription').value,
+    action: document.getElementById('editAction').value,
+    tags
+  };
+
+  closeEditor();
+  showSaveToast();
+}
+
+function closeEditor() {
+  document.getElementById('editorOverlay').classList.remove('open');
+  editingKey = null;
+}
+
+function closeEditorOutside(e) {
+  if (e.target === document.getElementById('editorOverlay')) closeEditor();
+}
+
+function showSaveToast() {
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// Adiciona botão de editar em cada step-box ao carregar
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.step-box').forEach(box => {
+    const onclickAttr = box.getAttribute('onclick');
+    if (!onclickAttr) return;
+    const match = onclickAttr.match(/openModal\('(.+?)'\)/);
+    if (!match) return;
+    const key = match[1];
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'edit-btn';
+    editBtn.title = 'Editar esta etapa';
+    editBtn.textContent = '✏️';
+    editBtn.onclick = (e) => {
+      e.stopPropagation();
+      openEditor(key);
+    };
+    box.style.position = 'relative';
+    box.appendChild(editBtn);
+  });
+});
+</script>
+
+<!-- EDITOR OVERLAY -->
+<div class="modal-overlay" id="editorOverlay" onclick="closeEditorOutside(event)">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <div class="modal-label">✏️ Modo Edição</div>
+        <div class="modal-title">Editando etapa: <span id="editorKey" style="color:var(--yellow);font-size:14px"></span></div>
+      </div>
+      <button class="modal-close" onclick="closeEditor()">✕</button>
+    </div>
+    <div class="modal-body" style="display:flex;flex-direction:column;gap:16px">
+
+      <div style="display:grid;grid-template-columns:80px 1fr;gap:12px">
+        <div>
+          <div class="modal-section-title">Ícone</div>
+          <input id="editIcon" type="text" style="width:100%;padding:10px;border:2px solid var(--gray-200);border-radius:8px;font-size:20px;text-align:center">
+        </div>
+        <div>
+          <div class="modal-section-title">Rótulo da fase</div>
+          <input id="editLabel" type="text" style="width:100%;padding:10px;border:2px solid var(--gray-200);border-radius:8px;font-size:13px">
+        </div>
+      </div>
+
+      <div>
+        <div class="modal-section-title">Título da etapa</div>
+        <input id="editTitle" type="text" style="width:100%;padding:10px;border:2px solid var(--gray-200);border-radius:8px;font-size:14px;font-weight:600">
+      </div>
+
+      <div>
+        <div class="modal-section-title">O que é (descrição)</div>
+        <textarea id="editDescription" rows="3" style="width:100%;padding:10px;border:2px solid var(--gray-200);border-radius:8px;font-size:13px;resize:vertical;font-family:inherit;line-height:1.6"></textarea>
+      </div>
+
+      <div>
+        <div class="modal-section-title">Ação necessária</div>
+        <textarea id="editAction" rows="3" style="width:100%;padding:10px;border:2px solid var(--gray-200);border-radius:8px;font-size:13px;resize:vertical;font-family:inherit;line-height:1.6"></textarea>
+      </div>
+
+      <div>
+        <div class="modal-section-title">Responsáveis / Tags (separados por vírgula)</div>
+        <input id="editTags" type="text" placeholder="ex: R&S, Obrigatório, Sistema" style="width:100%;padding:10px;border:2px solid var(--gray-200);border-radius:8px;font-size:13px">
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:4px">
+        <button class="btn btn-outline" onclick="closeEditor()">Cancelar</button>
+        <button class="btn btn-primary" onclick="saveEditor()">💾 Salvar alterações</button>
+      </div>
+
+      <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;padding:12px;font-size:12px;color:var(--gray-400);line-height:1.6">
+        ⚠️ As edições ficam salvas enquanto a página estiver aberta. Para salvar permanentemente, peça ao Gabriel para gerar um novo arquivo com as alterações.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="
+  position:fixed;bottom:30px;right:30px;
+  background:var(--green);color:white;
+  padding:14px 20px;border-radius:12px;
+  font-size:14px;font-weight:600;
+  box-shadow:0 8px 30px rgba(0,0,0,0.2);
+  z-index:9999;opacity:0;transform:translateY(10px);
+  transition:all 0.3s;pointer-events:none;
+">✅ Alterações salvas com sucesso!</div>
+
+<style>
+#toast.show { opacity:1 !important; transform:translateY(0) !important; }
+
+.edit-btn {
+  position:absolute;
+  top:-8px;right:-8px;
+  width:22px;height:22px;
+  background:white;
+  border:2px solid var(--gray-200);
+  border-radius:50%;
+  font-size:10px;
+  cursor:pointer;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+  transition:all 0.2s;
+  padding:0;
+  line-height:1;
+}
+
+.step-box:hover .edit-btn { display:flex; }
+.edit-btn:hover { background:var(--yellow);border-color:var(--yellow);transform:scale(1.1); }
+</style>
+</body>
+</html>
